@@ -1,18 +1,12 @@
 /* ===== ESTILOS GERAIS ===== */
+@import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Quicksand:wght@300..700&display=swap');
 
-@font-face {
-  font-family: 'Valorant';
-  src: url('https://game-valorant.vercel.app/fonts/valorant-font.woff2') format('woff2');
-  font-display: swap;
-}
 .hidden {
   display: none !important;
 }  
 
-
-
 body {
-  font-family: Arial, sans-serif;
+  font-family: "Barlow Condensed", Arial, sans-serif; /* Aplicando a fonte no body */
   text-align: center;
   background-color: #0f1923;
   color: white;
@@ -26,13 +20,11 @@ body {
 }
 
 h1 {
-  font-family: "Valorant",Arial, sans-serif;
-
+  font-family: "Barlow Condensed", Arial, sans-serif; /* Garantindo que o h1 use a fonte */
   margin: 20px 0 10px;
   user-select: none;
   font-size: clamp(1.5rem, 5vw, 2.5rem);
 }
-
 /* ===== LAYOUT DO JOGO ===== */
 #game {
   display: grid;
@@ -295,7 +287,7 @@ input[type='checkbox'] {
   }
 
   h1 {
-  font-family: "Valorant",Arial, sans-serif;
+  font-family: "Barlow Condensed",Arial, sans-serif;
 
     margin: 30px 0 20px;
   }
@@ -307,7 +299,7 @@ input[type='checkbox'] {
   }
 
   h1 {
-  font-family: "Valorant",Arial, sans-serif;
+  font-family: "Barlow Condensed",Arial, sans-serif;
 
     font-size: 1.8rem;
   }
