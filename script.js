@@ -206,9 +206,9 @@ async function startGame(cardCount) {
   if (selectedJoker === 'Classic') {
     jokerCard.displayIcon = 'coringa/classic.png';
   } else if (selectedJoker === 'Vandal') {
-    jokerCard.displayIcon = 'coringa/vandal.webp';
+    jokerCard.displayIcon = 'coringa/Vandal.webp';
   } else if (selectedJoker === 'Operator') {
-    jokerCard.displayIcon = 'coringa/operator.webp';
+    jokerCard.displayIcon = 'coringa/Operator.webp';
   }
 
   const agents = await fetchAgents();
