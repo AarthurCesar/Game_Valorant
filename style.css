@@ -1,7 +1,7 @@
 /* ===== ESTILOS GERAIS ===== */
 @font-face {
   font-family: 'ValorantFont';
-  src: url('public/fonts/Valorant-Font.ttf') format('truetype');
+  src: url('fonts/Valorant-Font.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -9,7 +9,9 @@
 
 .hidden {
   display: none !important;
-}
+}  
+
+
 
 body {
   font-family: Arial, sans-serif;
