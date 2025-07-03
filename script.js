@@ -54,6 +54,8 @@ const agentVoices = {
   "Vyse": "sounds/Vyse.mpeg",
   "Tejo": "sounds/Tejo.mpeg",
   "Waylay": "sounds/Waylay.mpeg",
+  
+  // Som Armas //
   "Classic": "sounds/classic.mp3",
   "Vandal": "sounds/Vandal.mp3",
   "Operator": "sounds/Operator.mp3",

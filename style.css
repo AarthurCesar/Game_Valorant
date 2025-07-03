@@ -1,9 +1,15 @@
-/* ===== ESTILOS ===== */
+/* ===== ESTILOS GERAIS ===== */
+@font-face {
+  font-family: 'ValorantFont';
+  src: url('/fonts/valorant font.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
 
 .hidden {
   display: none !important;
 }
-
 
 body {
   font-family: Arial, sans-serif;
@@ -16,37 +22,46 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  font-size: 16px;
 }
 
 h1 {
+  font-family: "Valorant",Arial, sans-serif;
+
   margin: 20px 0 10px;
   user-select: none;
+  font-size: clamp(1.5rem, 5vw, 2.5rem);
 }
 
+/* ===== LAYOUT DO JOGO ===== */
 #game {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-  grid-gap: 10px;
+  grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+  grid-gap: 8px;
   justify-content: center;
   max-width: 1100px;
-  margin-top: 20px;
-  flex-grow: 1;
+  margin: 20px auto;
+  width: 100%;
+  padding: 0 10px;
+  box-sizing: border-box;
 }
 
 .card {
-  width: 100px;
-  height: 140px;
+  width: 100%;
+  height: 0;
+  padding-bottom: 140%;
   perspective: 1000px;
   cursor: pointer;
   user-select: none;
+  position: relative;
 }
 
 .card-inner {
+  position: absolute;
   width: 100%;
   height: 100%;
   transition: transform 0.6s;
   transform-style: preserve-3d;
-  position: relative;
   border-radius: 10px;
 }
 
@@ -92,11 +107,10 @@ h1 {
   padding: 10px;
 }
 
-/* Botoes */
-
+/* ===== BOTÕES ===== */
 button {
   padding: 10px 20px;
-  font-size: 16px;
+  font-size: 1rem;
   cursor: pointer;
   background-color: #ff4655;
   color: white;
@@ -105,19 +119,19 @@ button {
   margin: 10px 5px 0;
   user-select: none;
   transition: background-color 0.3s ease;
+  min-width: 120px;
 }
 
 button:hover {
   background-color: #ff2a3b;
 }
 
-/* Menu principal */
-
+/* ===== MENUS ===== */
 #menu,
 #difficultyMenu {
   margin-top: 20px;
   max-width: 400px;
-  width: 100%;
+  width: 90%;
   text-align: left;
   user-select: none;
 }
@@ -133,17 +147,15 @@ button:hover {
   border: 2px solid #ff4655;
 }
 
-.hidden {
-  display: none !important;
-}
-
 label {
   display: block;
   margin-bottom: 8px;
   cursor: pointer;
+  font-size: 0.9rem;
 }
 
-input[type='radio'] {
+input[type='radio'],
+input[type='checkbox'] {
   margin-right: 10px;
   cursor: pointer;
 }
@@ -152,28 +164,52 @@ input[type='radio'] {
   margin-top: 10px;
 }
 
-/* Estatísticas */
+#personalizedInput {
+  width: 100%;
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
 
+/* ===== ESTATÍSTICAS ===== */
 #stats {
   margin-top: 15px;
-  font-size: 18px;
+  font-size: 1rem;
   user-select: none;
 }
 
-/* Modal vitória */
+/* ===== CONTROLES DO JOGO ===== */
+#gameControls {
+  margin: 20px 0;
+  text-align: center;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
 
+#gameControls button {
+  margin: 0;
+  padding: 10px 15px;
+  font-size: 0.9rem;
+  flex: 1;
+  max-width: 150px;
+}
+
+/* ===== MODAL DE VITÓRIA ===== */
 .modal {
-  position: fixed;            /* fixa na viewport */
+  position: fixed;
   top: 0;
   left: 0;
-  width: 100vw;               /* ocupa toda largura */
-  height: 100vh;              /* ocupa toda altura */
-  background-color: rgba(0, 0, 0, 0.7); /* fundo escuro semitransparente */
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.7);
   z-index: 10000;
-
-  display: flex;              /* flex para centralizar */
-  justify-content: center;    /* centraliza horizontalmente */
-  align-items: center;        /* centraliza verticalmente */
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .modal.hidden {
@@ -182,9 +218,10 @@ input[type='radio'] {
 
 .modal-content {
   background-color: #1c2733;
-  padding: 25px 35px;
+  padding: 20px;
   border-radius: 12px;
-  width: 320px;
+  width: 90%;
+  max-width: 320px;
   color: white;
   text-align: center;
   box-shadow: 0 0 15px #ff4655;
@@ -193,57 +230,153 @@ input[type='radio'] {
 
 .modal-content h2 {
   margin-top: 0;
-  font-size: 28px;
+  font-size: 1.5rem;
   margin-bottom: 10px;
 }
 
 .modal-content p {
-  font-size: 20px;
+  font-size: 1.1rem;
   margin-bottom: 20px;
 }
 
 .modal-content button {
-  padding: 12px 25px;
-  font-size: 18px;
-  background-color: #ff4655;
-  border-radius: 8px;
-  border: none;
-  cursor: pointer;
-  color: white;
-  transition: background-color 0.3s ease;
-}
-
-.modal-content button:hover {
-  background-color: #ff2a3b;
-}
-
-/* Grupo de botões no menu de dificuldade */
-
-.menu-buttons {
-  margin-top: 20px;
-  display: flex;
-  gap: 10px;
-  justify-content: flex-start;
-}
-
-/* Seu CSS original permanece aqui... só adicionando .hidden para esconder elementos */
-
-/* Só para garantir o estilo dos botões do menu de dificuldade */
-.menu-buttons {
-  margin-top: 20px;
-  display: flex;
-  gap: 10px;
-  justify-content: flex-start;
-}
-
-
-#gameControls {
-  margin: 20px 0;
-  text-align: center;
-}
-
-#gameControls button {
-  margin: 0 10px;
   padding: 10px 20px;
-  font-size: 16px;
+  font-size: 1rem;
+}
+
+/* ===== GRUPO DE BOTÕES ===== */
+.menu-buttons {
+  margin-top: 20px;
+  display: flex;
+  gap: 10px;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+
+.menu-buttons button {
+  flex: 1;
+  min-width: 100px;
+}
+
+/* ===== MEDIA QUERIES PARA RESPONSIVIDADE ===== */
+@media (min-width: 768px) {
+  #game {
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    grid-gap: 15px;
+  }
+
+  .card {
+    padding-bottom: 140%;
+  }
+
+  button {
+    font-size: 1.1rem;
+    padding: 12px 24px;
+  }
+
+  #stats {
+    font-size: 1.2rem;
+  }
+
+  label {
+    font-size: 1rem;
+  }
+
+  #gameControls button {
+    font-size: 1rem;
+    padding: 12px 20px;
+  }
+}
+
+@media (min-width: 992px) {
+  #game {
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    grid-gap: 20px;
+  }
+
+  h1 {
+  font-family: "Valorant",Arial, sans-serif;
+
+    margin: 30px 0 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    font-size: 16px;
+  }
+
+  h1 {
+  font-family: "Valorant",Arial, sans-serif;
+
+    font-size: 1.8rem;
+  }
+
+  #game {
+    grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
+    grid-gap: 6px;
+  }
+
+  .card {
+    padding-bottom: 130%;
+  }
+
+  .card-back img.agent-img {
+    width: 85%;
+    height: 85%;
+  }
+
+  .card-back img.joker-img {
+    width: 60%;
+    height: 60%;
+  }
+
+  button,
+  .menu-buttons button,
+  #gameControls button {
+    font-size: 1rem;
+    padding: 12px 18px;
+    min-width: 100px;
+  }
+
+  #menu,
+  #difficultyMenu {
+    width: 95%;
+    padding: 16px;
+  }
+
+  label,
+  #stats,
+  .modal-content p {
+    font-size: 1.1rem !important;
+  }
+
+  .modal-content h2 {
+    font-size: 1.6rem !important;
+  }
+
+  .modal-content {
+    padding: 20px;
+  }
+
+  .modal-content button {
+    font-size: 1.1rem;
+    padding: 12px 20px;
+  }
+
+  input[type="radio"],
+  input[type="checkbox"],
+  input[type="number"] {
+    transform: scale(1.2);
+    margin-right: 12px;
+  }
+
+  #personalizedInput {
+    font-size: 1.1rem;
+    padding: 10px;
+  }
+
+  .menu-buttons button {
+    min-width: 80px;
+  }
 }
