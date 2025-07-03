@@ -1,11 +1,5 @@
 /* ===== ESTILOS GERAIS ===== */
-@font-face {
-  font-family: 'Valorant';
-  src: url('/fonts/valorant-font.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
+
 
 .hidden {
   display: none !important;
