@@ -2,7 +2,7 @@
 
 @font-face {
   font-family: 'Valorant';
-  src: url('/fonts/valorant-font.woff2') format('woff2');
+  src: url('https://game-valorant.vercel.app/fonts/valorant-font.woff2') format('woff2');
   font-display: swap;
 }
 .hidden {
