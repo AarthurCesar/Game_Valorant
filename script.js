@@ -55,8 +55,8 @@ const agentVoices = {
   "Tejo": "sounds/Tejo.mpeg",
   "Waylay": "sounds/Waylay.mpeg",
   "Classic": "sounds/classic.mp3",
-  "Vandal": "sounds/vandal.mp3",
-  "Operator": "sounds/operator.mp3",
+  "Vandal": "sounds/Vandal.mp3",
+  "Operator": "sounds/Operator.mp3",
 };
 
 let cards = [];
