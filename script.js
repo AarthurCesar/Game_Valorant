@@ -53,7 +53,10 @@ const agentVoices = {
   "Clove": "sounds/Clove.mpeg",
   "Vyse": "sounds/Vyse.mpeg",
   "Tejo": "sounds/Tejo.mpeg",
-  "Waylay": "sounds/Waylay.mpeg"
+  "Waylay": "sounds/Waylay.mpeg",
+  "Classic": "sounds/classic.mp3",
+  "Vandal": "sounds/vandal.mp3",
+  "Operator": "sounds/operator.mp3",
 };
 
 let cards = [];
@@ -124,6 +127,10 @@ function flipCard(card) {
     }
 
     const jokerType = card.dataset.jokerType;
+    
+    // Toca o som correspondente ao tipo de Coringa
+    const jokerSound = new Audio(agentVoices[jokerType]);
+    jokerSound.play();
 
     if (jokerType === 'Classic') {
       revealRandomPairs(1);
