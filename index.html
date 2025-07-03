@@ -1,127 +1,64 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Jogo da Memória Valorant</title>
-  <style>
-   body {
-  font-family: Arial, sans-serif;
-  text-align: center;
-  background-color: #0f1923;
-  color: white;
-  margin: 0;
-  padding: 20px;
-}
-
-h1 {
-  margin-bottom: 20px;
-}
-
-#game {
-  display: grid;
-  grid-template-columns: repeat(11, 100px);
-  grid-gap: 10px;
-  justify-content: center;
-  margin-top: 20px;
-}
-
-.card {
-  width: 100px;
-  height: 140px;
-  perspective: 1000px;
-  cursor: pointer;
-  user-select: none;
-}
-
-.card-inner {
-  width: 100%;
-  height: 100%;
-  transition: transform 0.6s;
-  transform-style: preserve-3d;
-  position: relative;
-}
-
-.card.flipped .card-inner {
-  transform: rotateY(180deg);
-}
-
-.card-front, .card-back {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  backface-visibility: hidden;
-  border: 2px solid white;
-  border-radius: 10px;
-}
-
-.card-front {
-  background-color: #1c2733;
-}
-
-.card-back {
-  transform: rotateY(180deg);
-  background-color: #15202b;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.agent-img {
-  width: 90%;
-  height: 90%;
-  object-fit: cover;
-  border-radius: 8px;
-}
-
-.joker-img {
-  width: 70%;
-  height: 70%;
-  object-fit: contain;
-  padding: 10px;
-}
-
-button {
-  padding: 10px 20px;
-  margin-top: 20px;
-  font-size: 16px;
-  cursor: pointer;
-  background-color: #ff4655;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  user-select: none;
-}
-
-button:active {
-  background-color: #e03e4f;
-}
-
-div {
-  user-select: none;
-  font-size: 18px;
-  margin-top: 10px;
-}
-
-
-  </style>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-
   <h1>Jogo da Memória Valorant</h1>
 
-  <button id="startButton">Começar Jogo</button>
+  <div id="menu">
+    <button id="startButton">Começar Jogo</button>
+  </div>
 
-  <div>
+  <div id="difficultyMenu" class="hidden">
+    <form>
+      <label><input type="radio" name="difficulty" value="easy" checked /> Fácil (4 cartas)</label>
+      <label><input type="radio" name="difficulty" value="medium" /> Médio (8 cartas)</label>
+      <label><input type="radio" name="difficulty" value="hard" /> Difícil (Todos os agentes)</label>
+      <label><input type="radio" name="difficulty" value="personalized" /> Personalizado</label>
+
+      <div id="personalizedOptions" class="hidden">
+        <input
+          type="number"
+          id="personalizedInput"
+          min="4"
+          max="54"
+          placeholder="Número de cartas (4 a 54)"
+        />
+      </div>
+
+      <label style="margin-top: 12px;">
+        <input type="checkbox" id="jokerCheckbox" />
+        Ativar carta Coringa
+      </label>
+
+      <div class="menu-buttons">
+        <button type="button" id="startDifficultyButton">Iniciar</button>
+      </div>
+    </form>
+  </div>
+
+  <div id="stats" class="hidden">
     Tentativas: <span id="attempts">0</span> | Pares: <span id="matches">0</span>
+  </div>
+
+  <div id="gameControls" class="hidden">
+    <button type="button" id="backGameButton">Voltar</button>
+    <button type="button" id="resetGameButton">Resetar Jogo</button>
   </div>
 
   <div id="game"></div>
 
-  <!-- Áudios -->
-  <audio id="startSound" src="sounds/start.mpeg"></audio>
-  <audio id="matchSound" src="sounds/match.mpeg"></audio>
+  <div id="victoryModal" class="modal hidden">
+    <div class="modal-content">
+      <h2>Parabéns!</h2>
+      <p>Você encontrou todos os pares!</p>
+      <button id="closeModalBtn">Fechar</button>
+    </div>
+  </div>
 
   <script src="script.js"></script>
-
 </body>
 </html>

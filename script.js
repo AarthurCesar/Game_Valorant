@@ -1,19 +1,28 @@
-// Jogo da Memória com Carta Coringa (Completo)
+// Jogo da Memória Valorant com Menu, Personalização, Carta Coringa e Modal
 
 const gameContainer = document.getElementById('game');
 const attemptsSpan = document.getElementById('attempts');
 const matchesSpan = document.getElementById('matches');
-
-const startSound = document.getElementById('startSound');
-const matchSound = document.getElementById('matchSound');
 const startButton = document.getElementById('startButton');
+const menu = document.getElementById('menu');
+const difficultyMenu = document.getElementById('difficultyMenu');
+const personalizedInput = document.getElementById('personalizedInput');
+const personalizedOptions = document.getElementById('personalizedOptions');
+const jokerCheckbox = document.getElementById('jokerCheckbox');
+const stats = document.getElementById('stats');
+const gameControls = document.getElementById('gameControls');
+const backGameButton = document.getElementById('backGameButton');
+const resetGameButton = document.getElementById('resetGameButton');
+const victoryModal = document.getElementById('victoryModal');
+const closeModalBtn = document.getElementById('closeModalBtn');
+const startDifficultyButton = document.getElementById('startDifficultyButton');
 
+let jokerEnabled = false;
 const jokerTypes = ['Classic', 'Vandal', 'Operator'];
 let selectedJoker = jokerTypes[Math.floor(Math.random() * jokerTypes.length)];
-
 let jokerCard = {
   displayName: 'Coringa',
-  displayIcon: '', // Definido no startGame
+  displayIcon: '',
   jokerType: selectedJoker
 };
 
@@ -60,15 +69,6 @@ async function fetchAgents() {
   return data.data.filter(agent => agent.displayIcon != null);
 }
 
-async function fetchWeapons() {
-  const res = await fetch('https://valorant-api.com/v1/weapons');
-  const data = await res.json();
-  return data.data.map(weapon => ({
-    name: weapon.displayName,
-    icon: weapon.displayIcon
-  }));
-}
-
 function shuffleArray(array) {
   return array.sort(() => Math.random() - 0.5);
 }
@@ -90,9 +90,9 @@ function createCard(agent) {
   img.src = agent.displayIcon;
 
   if (agent.displayName === 'Coringa') {
-    img.classList.add('joker-img'); // classe exclusiva para coringa (armas)
+    img.classList.add('joker-img');
   } else {
-    img.classList.add('agent-img'); // classe para agentes
+    img.classList.add('agent-img');
   }
 
   cardBack.appendChild(img);
@@ -159,18 +159,13 @@ function flipCard(card) {
     if (audioSrc) {
       const audio = new Audio(audioSrc);
       audio.play();
-    } else {
-      matchSound.play();
     }
 
     firstCard.style.pointerEvents = 'none';
     secondCard.style.pointerEvents = 'none';
 
     resetBoard();
-
-    if (matches === cards.length / 2) {
-      setTimeout(() => alert('Parabéns! Você encontrou todos os pares!'), 500);
-    }
+    checkVictory();
   } else {
     setTimeout(() => {
       firstCard.classList.remove('flipped');
@@ -185,32 +180,53 @@ function resetBoard() {
   lockBoard = false;
 }
 
-async function startGame() {
-  startSound.currentTime = 0;
-  startSound.play();
-
-  selectedJoker = jokerTypes[Math.floor(Math.random() * jokerTypes.length)];
-
-  const weapons = await fetchWeapons();
-  const classic = weapons.find(w => w.name === 'Classic');
-  const vandal = weapons.find(w => w.name === 'Vandal');
-  const operator = weapons.find(w => w.name === 'Operator');
-
-  if (selectedJoker === 'Classic' && classic) {
-    jokerCard.displayIcon = classic.icon;
-  } else if (selectedJoker === 'Vandal' && vandal) {
-    jokerCard.displayIcon = vandal.icon;
-  } else if (selectedJoker === 'Operator' && operator) {
-    jokerCard.displayIcon = operator.icon;
+function checkVictory() {
+  const totalPairs = Math.floor((cards.length - (jokerEnabled ? 1 : 0)) / 2);
+  if (matches === totalPairs) {
+    setTimeout(() => {
+      showVictoryModal();
+    }, 500);
   }
+}
 
+function showVictoryModal() {
+  victoryModal.classList.remove('hidden');
+  victoryModal.classList.add('show');
+}
+
+function hideVictoryModal() {
+  victoryModal.classList.remove('show');
+  victoryModal.classList.add('hidden');
+}
+
+async function startGame(cardCount) {
+  selectedJoker = jokerTypes[Math.floor(Math.random() * jokerTypes.length)];
   jokerCard.jokerType = selectedJoker;
 
+  if (selectedJoker === 'Classic') {
+    jokerCard.displayIcon = 'coringa/classic.webp';
+  } else if (selectedJoker === 'Vandal') {
+    jokerCard.displayIcon = 'coringa/vandal.webp';
+  } else if (selectedJoker === 'Operator') {
+    jokerCard.displayIcon = 'coringa/operator.webp';
+  }
+
   const agents = await fetchAgents();
-  const selectedAgents = shuffleArray(agents);
+
+  let actualCardCount = cardCount;
+
+  if (cardCount === 'all') {
+    actualCardCount = agents.length * 2;
+  }
+
+  let selectedAgents = shuffleArray(agents).slice(0, actualCardCount / 2);
 
   cards = [...selectedAgents, ...selectedAgents];
-  cards.push(jokerCard);
+
+  if (jokerEnabled) {
+    cards.push(jokerCard);
+  }
+
   shuffleArray(cards);
 
   gameContainer.innerHTML = '';
@@ -223,6 +239,14 @@ async function startGame() {
   matches = 0;
   attemptsSpan.textContent = attempts;
   matchesSpan.textContent = matches;
+
+  // Mostra stats e controles do jogo
+  stats.classList.remove('hidden');
+  gameControls.classList.remove('hidden');
+  
+  // Oculta menus
+  menu.classList.add('hidden');
+  difficultyMenu.classList.add('hidden');
 }
 
 function revealRandomPairs(quantity) {
@@ -254,12 +278,95 @@ function revealRandomPairs(quantity) {
   });
 
   matchesSpan.textContent = matches;
+  checkVictory();
+}
 
-  if (matches === cards.length / 2) {
-    setTimeout(() => alert('Parabéns! Você encontrou todos os pares!'), 500);
+// Menu Functions
+function showMenu() {
+  menu.classList.remove('hidden');
+  difficultyMenu.classList.add('hidden');
+  stats.classList.add('hidden');
+  gameControls.classList.add('hidden');
+  gameContainer.innerHTML = '';
+  attempts = 0;
+  matches = 0;
+  attemptsSpan.textContent = attempts;
+  matchesSpan.textContent = matches;
+}
+
+function showDifficultyMenu() {
+  menu.classList.add('hidden');
+  difficultyMenu.classList.remove('hidden');
+  stats.classList.add('hidden');
+  gameControls.classList.add('hidden');
+  gameContainer.innerHTML = '';
+  attempts = 0;
+  matches = 0;
+  attemptsSpan.textContent = attempts;
+  matchesSpan.textContent = matches;
+}
+
+function handleDifficultySelection(cardCount) {
+  jokerEnabled = jokerCheckbox.checked;
+
+  if(cardCount === 'all'){
+    startGame('all');
+  } else {
+    startGame(cardCount);
   }
 }
 
+function handlePersonalizedSelection() {
+  const inputVal = parseInt(personalizedInput.value);
+  if (isNaN(inputVal) || inputVal < 4 || inputVal > 54) {
+    alert('Por favor, insira um valor entre 4 e 54.');
+    return;
+  }
+
+  handleDifficultySelection(inputVal);
+}
+
+function handleDifficultyChange(event) {
+  if (event.target.value === 'personalized') {
+    personalizedOptions.classList.remove('hidden');
+  } else {
+    personalizedOptions.classList.add('hidden');
+  }
+}
+
+// Event Listeners
 startButton.addEventListener('click', () => {
-  startGame();
+  showDifficultyMenu();
+});
+
+backGameButton.addEventListener('click', () => {
+  showMenu();
+  hideVictoryModal();
+});
+
+resetGameButton.addEventListener('click', () => {
+  const selectedDifficulty = document.querySelector('input[name="difficulty"]:checked').value;
+  
+  if (selectedDifficulty === 'easy') handleDifficultySelection(4);
+  else if (selectedDifficulty === 'medium') handleDifficultySelection(8);
+  else if (selectedDifficulty === 'hard') handleDifficultySelection('all');
+  else if (selectedDifficulty === 'personalized') handlePersonalizedSelection();
+});
+
+startDifficultyButton.addEventListener('click', () => {
+  const selectedDifficulty = document.querySelector('input[name="difficulty"]:checked').value;
+
+  if (selectedDifficulty === 'easy') handleDifficultySelection(4);
+  else if (selectedDifficulty === 'medium') handleDifficultySelection(8);
+  else if (selectedDifficulty === 'hard') handleDifficultySelection('all');
+  else if (selectedDifficulty === 'personalized') handlePersonalizedSelection();
+});
+
+document.querySelectorAll('input[name="difficulty"]').forEach(radio => {
+  radio.addEventListener('change', handleDifficultyChange);
+});
+
+closeModalBtn.addEventListener('click', () => {
+  hideVictoryModal();
+  showMenu();
 });

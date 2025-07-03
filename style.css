@@ -1,85 +1,249 @@
-body {
-    font-family: Arial, sans-serif;
-    text-align: center;
-    background-color: #121212;
-    color: white;
+/* ===== ESTILOS ===== */
+
+.hidden {
+  display: none !important;
 }
 
-.card-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 15px;
+
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  background-color: #0f1923;
+  color: white;
+  margin: 0;
+  padding: 0 10px 30px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+h1 {
+  margin: 20px 0 10px;
+  user-select: none;
+}
+
+#game {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  grid-gap: 10px;
+  justify-content: center;
+  max-width: 1100px;
+  margin-top: 20px;
+  flex-grow: 1;
 }
 
 .card {
-    border: 2px solid white;
-    border-radius: 10px;
-    width: 150px;
-    cursor: pointer;
-    transition: transform 0.2s, border-color 0.2s;
+  width: 100px;
+  height: 140px;
+  perspective: 1000px;
+  cursor: pointer;
+  user-select: none;
 }
 
-.card img {
-    width: 100%;
-    border-radius: 10px 10px 0 0;
+.card-inner {
+  width: 100%;
+  height: 100%;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+  position: relative;
+  border-radius: 10px;
 }
 
-.card h4 {
-    margin: 5px 0;
+.card.flipped .card-inner {
+  transform: rotateY(180deg);
 }
 
-.card.selected {
-    border-color: lime;
-    transform: scale(1.05);
+.card-front,
+.card-back {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  backface-visibility: hidden;
+  border: 2px solid white;
+  border-radius: 10px;
+  box-sizing: border-box;
 }
 
-.card.attacking {
-    animation: attack 0.3s ease-in-out;
+.card-front {
+  background-color: #1c2733;
 }
 
-@keyframes attack {
-    0% { transform: scale(1) translateY(0); }
-    50% { transform: scale(1.1) translateY(-10px); }
-    100% { transform: scale(1) translateY(0); }
+.card-back {
+  transform: rotateY(180deg);
+  background-color: #222e3a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+}
+
+.card-back img.agent-img {
+  width: 90%;
+  height: 90%;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.card-back img.joker-img {
+  width: 70%;
+  height: 70%;
+  object-fit: contain;
+  padding: 10px;
+}
+
+/* Botoes */
+
+button {
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  background-color: #ff4655;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  margin: 10px 5px 0;
+  user-select: none;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #ff2a3b;
+}
+
+/* Menu principal */
+
+#menu,
+#difficultyMenu {
+  margin-top: 20px;
+  max-width: 400px;
+  width: 100%;
+  text-align: left;
+  user-select: none;
+}
+
+#menu {
+  display: block;
+}
+
+#difficultyMenu {
+  background: #182736;
+  padding: 15px 20px;
+  border-radius: 10px;
+  border: 2px solid #ff4655;
+}
+
+.hidden {
+  display: none !important;
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+  cursor: pointer;
+}
+
+input[type='radio'] {
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+#personalizedOptions {
+  margin-top: 10px;
+}
+
+/* Estatísticas */
+
+#stats {
+  margin-top: 15px;
+  font-size: 18px;
+  user-select: none;
+}
+
+/* Modal vitória */
+
+.modal {
+  position: fixed;            /* fixa na viewport */
+  top: 0;
+  left: 0;
+  width: 100vw;               /* ocupa toda largura */
+  height: 100vh;              /* ocupa toda altura */
+  background-color: rgba(0, 0, 0, 0.7); /* fundo escuro semitransparente */
+  z-index: 10000;
+
+  display: flex;              /* flex para centralizar */
+  justify-content: center;    /* centraliza horizontalmente */
+  align-items: center;        /* centraliza verticalmente */
+}
+
+.modal.hidden {
+  display: none;
+}
+
+.modal-content {
+  background-color: #1c2733;
+  padding: 25px 35px;
+  border-radius: 12px;
+  width: 320px;
+  color: white;
+  text-align: center;
+  box-shadow: 0 0 15px #ff4655;
+  user-select: none;
+}
+
+.modal-content h2 {
+  margin-top: 0;
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+
+.modal-content p {
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
+.modal-content button {
+  padding: 12px 25px;
+  font-size: 18px;
+  background-color: #ff4655;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  color: white;
+  transition: background-color 0.3s ease;
+}
+
+.modal-content button:hover {
+  background-color: #ff2a3b;
+}
+
+/* Grupo de botões no menu de dificuldade */
+
+.menu-buttons {
+  margin-top: 20px;
+  display: flex;
+  gap: 10px;
+  justify-content: flex-start;
+}
+
+/* Seu CSS original permanece aqui... só adicionando .hidden para esconder elementos */
+
+/* Só para garantir o estilo dos botões do menu de dificuldade */
+.menu-buttons {
+  margin-top: 20px;
+  display: flex;
+  gap: 10px;
+  justify-content: flex-start;
 }
 
 
-/* Animação quando você ataca */
-@keyframes attack {
-    0% { transform: scale(1) translateY(0); }
-    50% { transform: scale(1.1) translateY(-20px); }
-    100% { transform: scale(1) translateY(0); }
+#gameControls {
+  margin: 20px 0;
+  text-align: center;
 }
 
-/* Animação quando você recebe ataque */
-@keyframes hit {
-    0% { transform: translateX(0); }
-    25% { transform: translateX(-10px); }
-    50% { transform: translateX(10px); }
-    75% { transform: translateX(-10px); }
-    100% { transform: translateX(0); }
-}
-
-.card.attacking {
-    animation: attack 0.4s ease-in-out;
-}
-
-.card.hit {
-    animation: hit 0.4s ease-in-out;
-}
-
-.life-bar {
-    width: 100%;
-    background-color: red;
-    border-radius: 5px;
-    overflow: hidden;
-    margin: 5px 0;
-}
-
-.life-fill {
-    height: 10px;
-    background-color: limegreen;
-    width: 100%;
-    transition: width 0.5s ease;
+#gameControls button {
+  margin: 0 10px;
+  padding: 10px 20px;
+  font-size: 16px;
 }
