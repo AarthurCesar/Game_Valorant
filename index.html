@@ -2,27 +2,55 @@
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8" />
-  <title>Jogo da Memória Valorant</title>
-  <!-- Pré-carrega a fonte -->
+  <title>Jogo da Memória | Valorant</title>
   <link rel="preload" href="/fonts/valorant-font.woff2" as="font" type="font/woff2" crossorigin>
-  <!-- CSS principal (removi a duplicata) -->
   <link rel="stylesheet" href="style.css">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
 <body>
-  <h1>Jogo da Memória Valorant</h1>
+
+  <div id="loadingOverlay" class="hidden">
+    <div class="loading-spinner"></div>
+    <p>CARREGANDO AGENTES</p>
+  </div>
+
+  <header>
+    <div class="title-wrapper">
+      <div class="title-line"></div>
+      <h1>JOGO DA MEMÓRIA</h1>
+      <div class="title-line"></div>
+    </div>
+    <p class="subtitle">VALORANT EDITION</p>
+  </header>
 
   <div id="menu">
-    <button id="startButton">Começar Jogo</button>
+    <button id="startButton">COMEÇAR JOGO</button>
   </div>
 
   <div id="difficultyMenu" class="hidden">
+    <div class="panel-header">SELECIONE A DIFICULDADE</div>
     <form>
-      <label><input type="radio" name="difficulty" value="easy" checked /> Fácil (4 cartas)</label>
-      <label><input type="radio" name="difficulty" value="medium" /> Médio (8 cartas)</label>
-      <label><input type="radio" name="difficulty" value="hard" /> Difícil (Todos os agentes)</label>
-      <label><input type="radio" name="difficulty" value="personalized" /> Personalizado</label>
+      <label class="radio-label">
+        <input type="radio" name="difficulty" value="easy" checked />
+        <span class="radio-custom"></span>
+        <span class="label-text">FÁCIL <em>4 cartas</em></span>
+      </label>
+      <label class="radio-label">
+        <input type="radio" name="difficulty" value="medium" />
+        <span class="radio-custom"></span>
+        <span class="label-text">MÉDIO <em>8 cartas</em></span>
+      </label>
+      <label class="radio-label">
+        <input type="radio" name="difficulty" value="hard" />
+        <span class="radio-custom"></span>
+        <span class="label-text">DIFÍCIL <em>Todos os agentes</em></span>
+      </label>
+      <label class="radio-label">
+        <input type="radio" name="difficulty" value="personalized" />
+        <span class="radio-custom"></span>
+        <span class="label-text">PERSONALIZADO</span>
+      </label>
 
       <div id="personalizedOptions" class="hidden">
         <input
@@ -34,33 +62,58 @@
         />
       </div>
 
-      <label style="margin-top: 12px;">
+      <label class="joker-label">
         <input type="checkbox" id="jokerCheckbox" />
-        Ativar carta Coringa
+        <span class="checkbox-custom"></span>
+        <span>ATIVAR CARTA CORINGA</span>
       </label>
 
       <div class="menu-buttons">
-        <button type="button" id="startDifficultyButton">Iniciar</button>
+        <button type="button" id="startDifficultyButton">INICIAR</button>
       </div>
     </form>
   </div>
 
   <div id="stats" class="hidden">
-    Tentativas: <span id="attempts">0</span> | Pares: <span id="matches">0</span>
+    <div class="stat-item">
+      <span class="stat-label">TENTATIVAS</span>
+      <span id="attempts" class="stat-value">0</span>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <span class="stat-label">PARES</span>
+      <span id="matches" class="stat-value">0</span>
+    </div>
+    <div class="stat-divider"></div>
+    <div class="stat-item">
+      <span class="stat-label">TEMPO</span>
+      <span id="timer" class="stat-value">00:00</span>
+    </div>
   </div>
 
   <div id="gameControls" class="hidden">
-    <button type="button" id="backGameButton">Voltar</button>
-    <button type="button" id="resetGameButton">Resetar Jogo</button>
+    <button type="button" id="backGameButton">VOLTAR</button>
+    <button type="button" id="resetGameButton">RESETAR</button>
   </div>
 
   <div id="game"></div>
 
   <div id="victoryModal" class="modal hidden">
     <div class="modal-content">
-      <h2>Parabéns!</h2>
-      <p>Você encontrou todos os pares!</p>
-      <button id="closeModalBtn">Fechar</button>
+      <div class="modal-badge">VITÓRIA</div>
+      <h2>PARABÉNS!</h2>
+      <p class="modal-subtitle">TODOS OS PARES ENCONTRADOS</p>
+      <div class="victory-stats">
+        <div class="vs-item">
+          <span class="vs-label">TENTATIVAS</span>
+          <span id="finalAttempts" class="vs-value">0</span>
+        </div>
+        <div class="vs-item">
+          <span class="vs-label">TEMPO</span>
+          <span id="finalTime" class="vs-value">00:00</span>
+        </div>
+      </div>
+      <button id="closeModalBtn">JOGAR NOVAMENTE</button>
     </div>
   </div>
 
